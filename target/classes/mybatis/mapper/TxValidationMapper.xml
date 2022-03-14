@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learning.mapper.TxValidationMapper">
+
+    <select id="queryTxValidationList" resultType="TxValidation">
+        select * from tx_validation;
+    </select>
+
+    <select id="queryTxValidationByHashcode" resultType="TxValidation">
+        select * from tx_validation where hashcode = #{hashcode};
+    </select>
+
+    <insert id="addTxValidation" parameterType="TxValidation">
+        insert into tx_validation (tx_dependency, tx_content, hashcode, validated_time)
+        values (#{txDependency}, #{txContent}, #{hashcode}, #{validatedTime})
+    </insert>
+
+    <update id="updateTxValidation" parameterType="TxValidation">
+        update tx_validation
+        set tx_dependency=#{txDependency}, tx_content=#{txContent}, hashcode=#{hashcode}, validated_time=#{validatedTime}
+        where hashcode=#{hashcode}
+    </update>
+
+    <delete id="deleteTxValidation" parameterType="String">
+        delete from tx_validation where account_id=#{accountId}
+    </delete>
+</mapper>
