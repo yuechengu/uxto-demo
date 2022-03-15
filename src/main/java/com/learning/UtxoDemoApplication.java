@@ -1,13 +1,15 @@
 package com.learning;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UtxoModelApplication {
+@MapperScan("com.learning.mapper")
+public class UtxoDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UtxoModelApplication.class, args);
+        SpringApplication.run(UtxoDemoApplication.class, args);
     }
 
 }

@@ -4,26 +4,45 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.learning.mapper.TxValidationMapper">
 
-    <select id="queryTxValidationList" resultType="TxValidation">
+    <resultMap id="TxValidation" type="com.learning.entity.TxValidation" >
+        <result column="tx_dependency" property="txDependency" jdbcType="VARCHAR" />
+        <result column="tx_content" property="txContent" jdbcType="VARCHAR" />
+        <result column="hashcode" property="hashcode" jdbcType="VARCHAR" />
+        <result column="validated_time" property="validatedTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="queryTxValidationList" resultMap="TxValidation">
         select * from tx_validation;
     </select>
 
-    <select id="queryTxValidationByHashcode" resultType="TxValidation">
+    <select id="queryTxValidationByHashcode" resultMap="TxValidation">
         select * from tx_validation where hashcode = #{hashcode};
     </select>
 
-    <insert id="addTxValidation" parameterType="TxValidation">
+    <insert id="addTxValidation" parameterType="com.learning.entity.TxValidation">
         insert into tx_validation (tx_dependency, tx_content, hashcode, validated_time)
-        values (#{txDependency}, #{txContent}, #{hashcode}, #{validatedTime})
+        values (#{txDependency}, #{txContent}, #{hashcode}, now())
     </insert>
 
-    <update id="updateTxValidation" parameterType="TxValidation">
+    <delete id="deleteTxValidation" parameterType="String">
+        delete from tx_validation where hashcode=#{hashcode}
+    </delete>
+
+    <update id="updateJson" parameterType="com.learning.entity.TxValidation">
         update tx_validation
-        set tx_dependency=#{txDependency}, tx_content=#{txContent}, hashcode=#{hashcode}, validated_time=#{validatedTime}
+        set tx_content=json_merge_patch(tx_content, #{txContent})
         where hashcode=#{hashcode}
     </update>
 
-    <delete id="deleteTxValidation" parameterType="String">
-        delete from tx_validation where account_id=#{accountId}
-    </delete>
+    <update id="updateJsonSubcol" parameterType="com.learning.entity.TxValidation">
+        update tx_validation
+        set tx_content=json_set(tx_content,'$.inputs', #{extcol.innerMap.inputs})
+        where hashcode=#{hashcode}
+    </update>
+
+    <update id="updateJsonAll" parameterType="com.learning.entity.TxValidation">
+        update tx_validation
+        set tx_content=#{txContent}
+        where hashcode=#{hashcode}
+    </update>
 </mapper>

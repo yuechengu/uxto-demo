@@ -1,6 +1,6 @@
 package com.learning.entity;
 
-import com.alibaba.fastjson.JSONObject;
+import com.nh.micro.ext.ExtBeanWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class TxValidation {
     private String txDependency;
-    private JSONObject txContent;
+    private ExtBeanWrapper txContent;
     private String hashcode;
     private Date validatedTime;
 }
