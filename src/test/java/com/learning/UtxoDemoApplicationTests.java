@@ -3,6 +3,7 @@ package com.learning;
 import com.learning.entity.*;
 import com.learning.mapper.MicroTestMapper;
 import com.learning.mapper.TxValidationMapper;
+import com.learning.mapper.TxoMapper;
 import com.nh.micro.ext.ExtBeanWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,13 @@ class UtxoDemoApplicationTests {
         txValidation.setTxContent(extBeanWrapper);
         // 在表中插入一条新业务数据
         txValidationMapper.addTxValidation(txValidation);
+    }
+
+    @Autowired
+    TxoMapper txoMapper;
+    @Test
+    public void testCreateTxo() {
+        txoMapper.addTxo(new Txo("1", "张三", new BigDecimal("1000"), 0));
     }
 
 }

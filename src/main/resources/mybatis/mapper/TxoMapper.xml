@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learning.mapper.TxoMapper">
+
+    <select id="queryTxoList" resultType="Txo">
+        select * from txo;
+    </select>
+
+    <select id="queryTxoById" resultType="Txo">
+        select * from txo where txo_id = #{txo_Id};
+    </select>
+
+    <insert id="addTxo" parameterType="Txo">
+        insert into txo (txo_Id, owner, amount, is_spent)
+        values (#{txoId}, #{owner}, #{amount}, #{isSpent})
+    </insert>
+
+    <delete id="deleteTxo" parameterType="String">
+        delete from txo where transaction_id=#{txoId}
+    </delete>
+
+    <select id="queryTxosNumber" resultType="int">
+        select count(*) from txo
+    </select>
+</mapper>
