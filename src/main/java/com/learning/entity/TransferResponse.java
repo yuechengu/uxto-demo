@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 
+// ※目前这个返回体被弃用
 @Data
 public class TransferResponse {
     @JsonProperty(value = "is-spent")

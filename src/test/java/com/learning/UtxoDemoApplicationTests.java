@@ -1,9 +1,11 @@
 package com.learning;
 
+import com.learning.controller.ServiceController;
 import com.learning.entity.*;
 import com.learning.mapper.MicroTestMapper;
 import com.learning.mapper.TxValidationMapper;
 import com.learning.mapper.TxoMapper;
+import com.learning.service.TransferService;
 import com.nh.micro.ext.ExtBeanWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,6 @@ import java.util.List;
 
 @SpringBootTest
 class UtxoDemoApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
 
     @Autowired
     MicroTestMapper microTestMapper;
@@ -58,17 +56,17 @@ class UtxoDemoApplicationTests {
         ExtBeanWrapper extBeanWrapper = new ExtBeanWrapper();
         // json扩展字段业务实体类 --ex: 单次交易行为内容txContent
         TxContent txContent = new TxContent();
-        List<String> inputs = new ArrayList<String>(){
+        List<Integer> inputs = new ArrayList<Integer>(){
             {
-                this.add("1");
-                this.add("2");
-                this.add("3");
+                this.add(1);
+                this.add(2);
+                this.add(3);
             }
         };
         List<Txo> outputs = new ArrayList<Txo>(){
             {
-                this.add(new Txo("4", "张三", new BigDecimal("50"), 0));
-                this.add(new Txo("5", "李四", new BigDecimal("150"), 0));
+                this.add(new Txo(4, "张三", new BigDecimal("50"), 0));
+                this.add(new Txo(5, "李四", new BigDecimal("150"), 0));
             }
         };
         txContent.setInputs(inputs);
@@ -85,7 +83,36 @@ class UtxoDemoApplicationTests {
     TxoMapper txoMapper;
     @Test
     public void testCreateTxo() {
-        txoMapper.addTxo(new Txo("1", "张三", new BigDecimal("1000"), 0));
+        txoMapper.addTxo(new Txo(null, "张三", new BigDecimal("1000"), 0));
+    }
+
+    @Autowired
+    ServiceController serviceController;
+    @Test
+    public void testTransferService() throws Exception {
+        List<Integer> inputs = new ArrayList<Integer>(){
+            {
+//                this.add(1);
+                this.add(2);
+                this.add(3);
+            }
+        };
+        List<Txo> outputs = new ArrayList<Txo>(){
+            {
+                this.add(new Txo(null, "张三", new BigDecimal("1"), null));
+                this.add(new Txo(null, "吴振宇", new BigDecimal("999"), null));
+            }
+        };
+        TransferRequest transferRequest = new TransferRequest(inputs, outputs);
+        serviceController.transfer(transferRequest);
+    }
+
+    // ※roll back
+    @Test
+    public void rollBack() {
+        txoMapper.deleteTxo(2);
+        txoMapper.deleteTxo(3);
+        txValidationMapper.deleteTxValidation("本交易行为hash");
     }
 
 }

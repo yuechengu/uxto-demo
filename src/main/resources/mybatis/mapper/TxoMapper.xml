@@ -12,13 +12,19 @@
         select * from txo where txo_id = #{txo_Id};
     </select>
 
-    <insert id="addTxo" parameterType="Txo">
-        insert into txo (txo_Id, owner, amount, is_spent)
-        values (#{txoId}, #{owner}, #{amount}, #{isSpent})
+    <insert id="addTxo" parameterType="Txo" useGeneratedKeys="true" keyProperty="txoId">
+        insert into txo (owner, amount, is_spent)
+        values (#{owner}, #{amount}, #{isSpent})
     </insert>
 
-    <delete id="deleteTxo" parameterType="String">
-        delete from txo where transaction_id=#{txoId}
+    <update id="updateTxo" parameterType="Txo">
+        update txo
+        set is_spent=1
+        where txo_id=#{txoId}
+    </update>
+
+    <delete id="deleteTxo" parameterType="Integer">
+        delete from txo where txo_id=#{txoId}
     </delete>
 
     <select id="queryTxosNumber" resultType="int">

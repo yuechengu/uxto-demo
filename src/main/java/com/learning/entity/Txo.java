@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Txo {
-    private String txoId;
+    private Integer txoId;
     private String owner;
     private BigDecimal amount;
     private Integer isSpent;

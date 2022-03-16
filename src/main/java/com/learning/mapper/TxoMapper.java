@@ -12,11 +12,13 @@ public interface TxoMapper {
 
     List<Txo> queryTxoList();
 
-    Txo queryTxoById(String id);
+    Txo queryTxoById(Integer id);
 
     int addTxo(Txo txo);
 
-    int deleteTxo(String id);
+    int updateTxo(Txo txo);
+
+    int deleteTxo(Integer id);
 
     int queryTxosNumber();
 }
