@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransferRequest {
-    private List<Integer> inputs;
-
-    private List<UnhandledTxo> outputs;
+public class UnhandledTxo {
+    private String owner;
+    private BigDecimal amount;
 }

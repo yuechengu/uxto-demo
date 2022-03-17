@@ -97,10 +97,10 @@ class UtxoDemoApplicationTests {
                 this.add(3);
             }
         };
-        List<Txo> outputs = new ArrayList<Txo>(){
+        List<UnhandledTxo> outputs = new ArrayList<UnhandledTxo>(){
             {
-                this.add(new Txo(null, "张三", new BigDecimal("1"), null));
-                this.add(new Txo(null, "吴振宇", new BigDecimal("999"), null));
+                this.add(new UnhandledTxo("张三", new BigDecimal("1")));
+                this.add(new UnhandledTxo("吴振宇", new BigDecimal("999")));
             }
         };
         TransferRequest transferRequest = new TransferRequest(inputs, outputs);
